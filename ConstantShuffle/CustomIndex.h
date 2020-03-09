@@ -2,12 +2,12 @@
 #include <cstdint>
 
 namespace ConstantShuffle {
-	class CustomIndex {
-	public:
-		int idx;
-		uintmax_t lastAccess;
+    class CustomIndex {
+    public:
+        int idx;
+        uintmax_t lastAccess;
 
-		CustomIndex();
-		CustomIndex(int idx);
-	};
+        CustomIndex();
+        CustomIndex(int idx);
+    };
 }

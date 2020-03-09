@@ -6,87 +6,92 @@
 #include "CustomIndex.h"
 
 namespace ConstantShuffle {
-	template<class T, std::size_t N, class RandomFunc>
-	struct ShuffleArray
-	{
-	private:
-		size_t dividerIdx; // Index from which the list is unsorted
-		uintmax_t shuffleCount; // Increments on each shuffle
+    template<class T, std::size_t N, class RandomFunc>
+    struct ShuffleArray
+    {
+    private:
+        size_t dividerIdx; // Index from which the list is unsorted
+        uintmax_t shuffleCount; // Increments on each shuffle
 
-		std::array<CustomIndex, N> indices; // maps index to data
-		std::array<T, N> data;
+        std::array<CustomIndex, N> indices; // maps index to data
+        std::array<T, N> data;
 
-		RandomFunc& r;
+        RandomFunc& r;
 
-	public:
-		ShuffleArray(RandomFunc&& r) : dividerIdx(N), shuffleCount(0), indices(), data(), r(r) {
-			for (size_t i = 0; i < N; ++i) {
-				indices[i] = CustomIndex(i);
-			}
-		}
+    public:
+        ShuffleArray(RandomFunc&& r) : dividerIdx(N), shuffleCount(0), indices(), data(), r(r) {
+            for (size_t i = 0; i < N; ++i) {
+                indices[i] = CustomIndex(i);
+            }
+        }
 
-	private:
-		
-		// Update index if shuffled since last access
-		void updateIdx(size_t idx) {
-			CustomIndex& ci = indices[idx];
+    private:
+        
+        // Update index if shuffled since last access
+        void updateIdx(size_t idx) {
+            CustomIndex& ci = indices[idx];
 
-			// if already up-to-date do nothing
-			if (ci.lastAccess == shuffleCount)
-				return;
+            // if already up-to-date do nothing
+            if (ci.lastAccess == shuffleCount)
+                return;
 
-			std::uniform_int_distribution<size_t> distr(dividerIdx, N - 1ul);
-			size_t newData = distr(r);
+            // choose random element from unsorted domain
+            std::uniform_int_distribution<size_t> distr(dividerIdx, N - 1ul);
+            size_t newData = distr(r);
 
-			if (newData != dividerIdx)
-				std::swap(data[dividerIdx], data[newData]);
+            // move element to the end of sorted domain
+            if (newData != dividerIdx)
+                std::swap(data[dividerIdx], data[newData]);
 
-			ci.idx = dividerIdx;
-			ci.lastAccess = shuffleCount;
-			++dividerIdx;
-		}
+            // update mapping
+            ci.idx = dividerIdx;
+            ci.lastAccess = shuffleCount;
 
-	public:
+            // sorted domain contains one element more
+            ++dividerIdx;
+        }
 
-		T& at(size_t pos) {
-			if (pos >= N)
-				throw std::out_of_range("Index out of range.");
+    public:
 
-			return (*this)[pos];
-		}
+        T& at(size_t pos) {
+            if (pos >= N)
+                throw std::out_of_range("Index out of range.");
 
-		T& operator[](size_t pos) {
-			updateIdx(pos);
-			return data[indices[pos].idx];
-		}
+            return (*this)[pos];
+        }
 
-		T& front() {
-			return (*this)[0];
-		}
+        T& operator[](size_t pos) {
+            updateIdx(pos);
+            return data[indices[pos].idx];
+        }
 
-		T& back() {
-			return (*this)[N - 1];
-		}
+        T& front() {
+            return (*this)[0];
+        }
 
-		constexpr bool empty() {
-			return N == 0;
-		}
+        T& back() {
+            return (*this)[N - 1];
+        }
 
-		constexpr size_t size() {
-			return N;
-		}
+        constexpr bool empty() {
+            return N == 0;
+        }
 
-		constexpr size_t max_size() {
-			return N;
-		}
+        constexpr size_t size() {
+            return N;
+        }
 
-		constexpr void fill(const T& value) {
-			data.fill(value);
-		}
+        constexpr size_t max_size() {
+            return N;
+        }
 
-		void shuffle() {
-			++shuffleCount;
-			dividerIdx = 0;
-		}
-	};
+        constexpr void fill(const T& value) {
+            data.fill(value);
+        }
+
+        void shuffle() {
+            ++shuffleCount;
+            dividerIdx = 0;
+        }
+    };
 }

@@ -18,11 +18,18 @@ int main()
 bool testShuffle() {
     const size_t testRuns = 32;
     const size_t N = 10032;
+
+    // initialize array 
     auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(32));
 
     for (int runs = 0; runs < testRuns; ++runs)
     {
+        for (std::size_t i = 0; i < N; ++i)
+        {
+            arr[i] = i;
+        }
         arr.shuffle();
+
         size_t numFixPoints = 0;
         for (std::size_t i = 0; i < N; ++i)
         {
@@ -42,7 +49,13 @@ bool testShuffle() {
 bool testConsistent() {
     const size_t testRuns = 32;
     const size_t N = 10032;
+
+    // initialize array 
     auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(1024));
+    for (std::size_t i = 0; i < N; ++i)
+    {
+        arr[i] = i;
+    }
 
     for (int runs = 0; runs < testRuns; ++runs)
     {
@@ -68,8 +81,9 @@ bool testConsistent() {
 bool testUnique() {
     const size_t testRuns = 32;
     const size_t N = 10032;
-    auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(21));
 
+    // initialize array 
+    auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(21));
     for (std::size_t i = 0; i < N; ++i)
     {
         arr[i] = i;
