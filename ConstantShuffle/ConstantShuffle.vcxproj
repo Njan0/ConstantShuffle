@@ -149,7 +149,6 @@
   <ItemGroup>
     <ClCompile Include="ConstantShuffle.cpp" />
     <ClCompile Include="CustomIndex.cpp" />
-    <ClCompile Include="ShuffleArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomIndex.h" />

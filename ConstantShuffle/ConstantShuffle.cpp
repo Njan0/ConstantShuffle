@@ -1,7 +1,7 @@
 #include <iostream>
-#include "ShuffleArray.h"
 #include <random>
 #include <set>
+#include "ShuffleArray.h"
 
 bool testShuffle();
 bool testConsistent();
@@ -9,10 +9,6 @@ bool testUnique();
 
 int main()
 {
-    const size_t N = 10;
-
-    auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(std::random_device()()));
-
     std::cout << "TestShuffle: " << (testShuffle() ? "Success" : "Fail") << "\n";
     std::cout << "TestConsistent: " << (testConsistent() ? "Success" : "Fail") << "\n";
     std::cout << "TestUnique: " << (testUnique() ? "Success" : "Fail") << "\n";
@@ -22,7 +18,7 @@ int main()
 bool testShuffle() {
     const size_t testRuns = 32;
     const size_t N = 10032;
-    auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(std::random_device()()));
+    auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(32));
 
     for (int runs = 0; runs < testRuns; ++runs)
     {
@@ -46,7 +42,7 @@ bool testShuffle() {
 bool testConsistent() {
     const size_t testRuns = 32;
     const size_t N = 10032;
-    auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(std::random_device()()));
+    auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(1024));
 
     for (int runs = 0; runs < testRuns; ++runs)
     {
@@ -72,7 +68,7 @@ bool testConsistent() {
 bool testUnique() {
     const size_t testRuns = 32;
     const size_t N = 10032;
-    auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(std::random_device()()));
+    auto arr = ConstantShuffle::ShuffleArray<int, N, std::mt19937>(std::mt19937(21));
 
     for (std::size_t i = 0; i < N; ++i)
     {

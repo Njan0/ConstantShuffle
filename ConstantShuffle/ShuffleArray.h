@@ -1,9 +1,9 @@
 #pragma once
+#include <array>
 #include <cstddef>
 #include <cstdint>
-#include <array>
-#include "CustomIndex.h"
 #include <random>
+#include "CustomIndex.h"
 
 namespace ConstantShuffle {
 	template<class T, std::size_t N, class RandomFunc>

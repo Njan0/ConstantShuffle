@@ -18,9 +18,6 @@
     <ClCompile Include="ConstantShuffle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShuffleArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CustomIndex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
